@@ -1,4 +1,6 @@
+
 package com.example.hangilapp;
+package com.hausung.hangil;
 
 import android.content.Intent;
 import android.graphics.Color;
