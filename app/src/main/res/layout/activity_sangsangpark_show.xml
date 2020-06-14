@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background_material_light"
+    android:orientation="vertical"
+    android:screenOrientation="portrait"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:background="@drawable/border"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:onClick="OnButtonClicked"
+        android:textColor="@color/white"
+        android:text="click"/>
+    <TextView
+        android:id="@+id/textShow"
+        android:text="상상파크 사용자 현황"
+        android:textAlignment="center"
+        android:textColor="@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/image"
+        android:background="@drawable/sangsangpark_design"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout >
