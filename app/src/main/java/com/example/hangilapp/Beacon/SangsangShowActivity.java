@@ -2,6 +2,7 @@ package com.hausung.hangil.Beacon;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -11,7 +12,9 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +39,9 @@ import org.altbeacon.beacon.Region;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SangsangParkShowActivity extends AppCompatActivity implements BeaconConsumer {
     TextView textShow;
@@ -91,7 +96,6 @@ public class SangsangParkShowActivity extends AppCompatActivity implements Beaco
             }
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -216,191 +220,6 @@ public class SangsangParkShowActivity extends AppCompatActivity implements Beaco
                         }
                     });
                 }
-                else if(minor==45323){
-                    final DocumentReference beaconDoc=db.collection("Beacon").document("45323");
-                    beaconDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                    //현재 count 받아오기
-                                    count=(int)document.get("count");
-                                    if(count<=5){
-                                        //getDistance를 했을 때 해당 비콘 범위 내에 있다면
-                                        //문서의 count 값 올려주기
-                                        beaconDoc.update("count",count+1);
-                                        //beacon 의 식별을 위하여 major 값으로 확인
-                                        //textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                                        textView.append("여기는 상상파크 입니다\n");
-                                        textView.append("Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())));
-                                        //textView.append("Beacon Bluetooth Id : "+address+"\n");
-                                        //textView.append("Beacon UUID : "+uuid+"\n");
-                                        if( beacon.getDistance()<= 1){
-                                            imageView.setImageResource(R.drawable.one);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else if( 2<= beacon.getDistance() &&beacon.getDistance()<= 5){
-                                            imageView.setImageResource(R.drawable.two);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else{
-                                            //범위 밖이라면 DB에 +1한 정보 다시 -1해주기
-                                            beaconDoc.update("count",count-1);
-                                            imageView.setImageResource(R.drawable.sangsangpark_design);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        count=(int)document.get("count");
-                                        //각 테이블에 인원 수 대로 점 찍어주기
-                                        for(int i=0;i<count;i++){
-                                            imageView.setImageResource(R.drawable.one);
-                                        }
-                                    }
-                                    else if(count==6){
-                                        //getDistance를 했을 때 범위 내에 있고 6일 경우는 그냥 6으로 놔두기
-                                        //beacon 의 식별을 위하여 major 값으로 확인
-                                        //textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                                        textView.append("여기는 상상파크 입니다\n");
-                                        textView.append("Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())));
-                                        //textView.append("Beacon Bluetooth Id : "+address+"\n");
-                                        //textView.append("Beacon UUID : "+uuid+"\n");
-                                        if( beacon.getDistance()<= 1){
-                                            imageView.setImageResource(R.drawable.one);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else if( 2<= beacon.getDistance() &&beacon.getDistance()<= 5){
-                                            imageView.setImageResource(R.drawable.two);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else{
-                                            imageView.setImageResource(R.drawable.sangsangpark_design);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        count=(int)document.get("count");
-                                        //각 테이블에 인원 수 대로 점 찍어주기
-                                        for(int i=0;i<count;i++){
-                                            imageView.setImageResource(R.drawable.one);
-                                        }
-                                    }
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        }
-                    });
-                }
-                else if(minor==45325){
-                    final DocumentReference beaconDoc=db.collection("Beacon").document("45325");
-                    beaconDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                    //현재 count 받아오기
-                                    count=(int)document.get("count");
-                                    if(count<=5){
-                                        //getDistance를 했을 때 해당 비콘 범위 내에 있다면
-                                        //문서의 count 값 올려주기
-                                        beaconDoc.update("count",count+1);
-                                        //beacon 의 식별을 위하여 major 값으로 확인
-                                        //textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                                        textView.append("여기는 상상파크 입니다\n");
-                                        textView.append("Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())));
-                                        //textView.append("Beacon Bluetooth Id : "+address+"\n");
-                                        //textView.append("Beacon UUID : "+uuid+"\n");
-                                        if( beacon.getDistance()<= 1){
-                                            imageView.setImageResource(R.drawable.one);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else if( 2<= beacon.getDistance() &&beacon.getDistance()<= 5){
-                                            imageView.setImageResource(R.drawable.two);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else{
-                                            //범위 밖이라면 DB에 +1한 정보 다시 -1해주기
-                                            beaconDoc.update("count",count-1);
-                                            imageView.setImageResource(R.drawable.sangsangpark_design);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        count=(int)document.get("count");
-                                        //각 테이블에 인원 수 대로 점 찍어주기
-                                        for(int i=0;i<count;i++){
-                                            imageView.setImageResource(R.drawable.one);
-                                        }
-                                    }
-                                    else if(count==6){
-                                        //getDistance를 했을 때 범위 내에 있고 6일 경우는 그냥 6으로 놔두기
-                                        //beacon 의 식별을 위하여 major 값으로 확인
-                                        //textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                                        textView.append("여기는 상상파크 입니다\n");
-                                        textView.append("Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())));
-                                        //textView.append("Beacon Bluetooth Id : "+address+"\n");
-                                        //textView.append("Beacon UUID : "+uuid+"\n");
-                                        if( beacon.getDistance()<= 1){
-                                            imageView.setImageResource(R.drawable.one);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else if( 2<= beacon.getDistance() &&beacon.getDistance()<= 5){
-                                            imageView.setImageResource(R.drawable.two);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else{
-                                            imageView.setImageResource(R.drawable.sangsangpark_design);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        count=(int)document.get("count");
-                                        //각 테이블에 인원 수 대로 점 찍어주기
-                                        for(int i=0;i<count;i++){
-                                            imageView.setImageResource(R.drawable.one);
-                                        }
-                                    }
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        }
-                    });
-                }
-            }
-
-            // 자기 자신을 1초마다 호출
-            handler.sendEmptyMessageDelayed(0, 1000);
-        }
-    };
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_COARSE_LOCATION: {
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "coarse location permission granted");
-                } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Functionality limited");
-                    builder.setMessage("Since location access has not been granted, this app will not be able to discover beacons when in the background.");
-                    builder.setPositiveButton(android.R.string.ok, null);
-                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                        }
-
-                    });
-                    builder.show();
-                }
-                return;
-            }
-        }
-    }
-}
 
     Button ConfirmSubmit = (Button) findViewById(R.id.Submit);
         ConfirmSubmit.setOnClickListener(
