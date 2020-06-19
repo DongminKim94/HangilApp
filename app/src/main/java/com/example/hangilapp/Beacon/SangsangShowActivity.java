@@ -96,6 +96,7 @@ public class SangsangParkShowActivity extends AppCompatActivity implements Beaco
             }
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -143,9 +144,11 @@ public class SangsangParkShowActivity extends AppCompatActivity implements Beaco
                 String uuid=beacon.getId1().toString(); //beacon uuid
                 int major = beacon.getId2().toInt(); //beacon major
                 int minor = beacon.getId3().toInt();// beacon minor
-                String address = beacon.getBluetoothAddress();
-                if(minor==45322){
-                    final DocumentReference beaconDoc=db.collection("Beacon").document("45322");
+
+
+
+                else if(minor==45325){
+                    final DocumentReference beaconDoc=db.collection("Beacon").document("45325");
                     beaconDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -174,52 +177,6 @@ public class SangsangParkShowActivity extends AppCompatActivity implements Beaco
                                             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                                         }
                                         else{
-                                            //범위 밖이라면 DB에 +1한 정보 다시 -1해주기
-                                            beaconDoc.update("count",count-1);
-                                            imageView.setImageResource(R.drawable.sangsangpark_design);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        count=(int)document.get("count");
-                                        //각 테이블에 인원 수 대로 점 찍어주기
-                                        for(int i=0;i<count;i++){
-                                            imageView.setImageResource(R.drawable.one);
-                                        }
-                                    }
-                                    else if(count==6){
-                                        //getDistance를 했을 때 범위 내에 있고 6일 경우는 그냥 6으로 놔두기
-                                        //beacon 의 식별을 위하여 major 값으로 확인
-                                        //textView.append("ID 1 : " + beacon.getId2() + " / " + "Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())) + "m\n");
-                                        textView.append("여기는 상상파크 입니다\n");
-                                        textView.append("Distance : " + Double.parseDouble(String.format("%.3f", beacon.getDistance())));
-                                        //textView.append("Beacon Bluetooth Id : "+address+"\n");
-                                        //textView.append("Beacon UUID : "+uuid+"\n");
-                                        if( beacon.getDistance()<= 1){
-                                            imageView.setImageResource(R.drawable.one);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else if( 2<= beacon.getDistance() &&beacon.getDistance()<= 5){
-                                            imageView.setImageResource(R.drawable.two);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        else{
-                                            imageView.setImageResource(R.drawable.sangsangpark_design);
-                                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                                        }
-                                        count=(int)document.get("count");
-                                        //각 테이블에 인원 수 대로 점 찍어주기
-                                        for(int i=0;i<count;i++){
-                                            imageView.setImageResource(R.drawable.one);
-                                        }
-                                    }
-                                } else {
-                                    Log.d(TAG, "No such document");
-                                }
-                            } else {
-                                Log.d(TAG, "get failed with ", task.getException());
-                            }
-                        }
-                    });
-                }
 
     Button ConfirmSubmit = (Button) findViewById(R.id.Submit);
         ConfirmSubmit.setOnClickListener(
